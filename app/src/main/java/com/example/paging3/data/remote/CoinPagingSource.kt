@@ -6,7 +6,7 @@ import com.example.paging3.common.Constants.STARTING_ITEM_INDEX
 import com.example.paging3.data.mapper.toDomainCoin
 import com.example.paging3.domain.model.Coin
 
-class MyPagingSource(
+class CoinPagingSource(
     private val apiService: CoinMarketApi
 ) : PagingSource<Int, Coin>() {
 

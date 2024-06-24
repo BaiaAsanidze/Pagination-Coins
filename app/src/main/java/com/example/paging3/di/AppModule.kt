@@ -2,6 +2,7 @@ package com.example.paging3.di
 
 import com.example.paging3.common.Constants
 import com.example.paging3.data.remote.CoinMarketApi
+import com.example.paging3.data.remote.interceptors.AuthInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -26,8 +27,16 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
-        OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
+    fun providesOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor, authInterceptor: AuthInterceptor): OkHttpClient =
+        OkHttpClient
+            .Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(authInterceptor)
+            .build()
+
+    @Singleton
+    @Provides
+    fun providesAuthInterceptor() = AuthInterceptor()
 
     @Singleton
     @Provides
