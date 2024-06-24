@@ -25,7 +25,7 @@
   - [Hilt](https://dagger.dev/hilt/):  for dependency injection.
 - Architecture
   -  MVVM Architecture
-  -  Repository Pattern
+  -  Clean Architecture
 - Retrofit
 
 
