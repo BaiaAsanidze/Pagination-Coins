@@ -1,6 +1,11 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id ("androidx.navigation.safeargs")
+    id ("kotlin-kapt")
+    id ("com.google.dagger.hilt.android")
 }
 
 android {
@@ -15,6 +20,20 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        //load the values from .properties file
+        val keystoreFile = project.rootProject.file("api_key.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+        //return empty key in case something goes wrong
+        val apiKey = properties.getProperty("API_KEY") ?: ""
+
+        buildConfigField(
+            type = "String",
+            name = "API_KEY",
+            value = apiKey
+        )
+
     }
 
     buildTypes {
@@ -33,6 +52,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures{
+        buildConfig = true
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -45,4 +69,40 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
+    // hilt
+    implementation (libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    kapt (libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.fragment)
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
+    // location
+    implementation (libs.play.services.location)
+
+    // retrofit
+    implementation (libs.retrofit)
+
+    //okhttp
+    implementation (libs.okhttp)
+    implementation (libs.logging.interceptor)
+
+    // lifecycle
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+
+    // timber
+    implementation (libs.timber)
+
+    //glide
+    implementation (libs.glide)
+
+    implementation (libs.converter.moshi)
+    implementation (libs.moshi.kotlin)
+
+
+    implementation (libs.androidx.paging.runtime.ktx)
+
+
 }
